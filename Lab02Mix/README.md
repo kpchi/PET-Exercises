@@ -94,7 +94,7 @@ where the `client_public_key` is an EC point, the expected Hmac is an Hmac of th
 
 	py.test -v Lab02Tests.py -m task3
 
-- The key differences between the 1-hop mix and the n-hop mix message encoding relates to: (1) the use of a blinding factor to provide bit-wise unlikability of the public key associated with the message; (2) the inclusion of a sequence (list) of hmacs as the second part of the mix message; (3) the decryption of the hmacs (in addition to the address and message) at each step of mixing.
+- The key differences between the 1-hop mix and the n-hop mix message encoding relates to: (1) the use of a blinding factor to provide bit-wise unlinkability of the public key associated with the message; (2) the inclusion of a sequence (list) of hmacs as the second part of the mix message; (3) the decryption of the hmacs (in addition to the address and message) at each step of mixing.
 
 - The output of the function `mix_client_n_hop` should be an `NHopMixMessage`. The first element is a public key, the second is a list of hmacs, the third is the encrypted address and the final one is the encrypted message. You can build such a structure using:
 

@@ -54,7 +54,6 @@ def credential_KeyGenUser(params):
     return (priv, pub)
 
 ## This is our old friend "to_challenge" from Lab04 on Zero Knowledge
-
 def to_challenge(elements):
     """ Generates a Bn challenge by hashing a number of EC points """
     Cstring = b",".join([hexlify(x.export()) for x in elements])
@@ -74,23 +73,25 @@ def to_challenge(elements):
 # pages 8-9 of https://eprint.iacr.org/2013/516.pdf
 
 def credential_EncryptUserSecret(params, pub, priv):
-    """ Encrypt a user defined random secret v under the public key of the user. 
-        Prove knowledge of the secret v, the private key "priv" and correctness of 
-        the encryption """
+    """ 
+    Encrypt a user defined random secret v under the public key of the user. 
+    Prove knowledge of the secret v, the private key "priv" and correctness of 
+    the encryption.
+    """
     G, g, h, o = params
     v = o.random()
     
-    ## Encrypt v using Benaloh with randomness k
+    # Encrypt v using Benaloh with randomness k
     k = o.random()
     ciphertext = k * g, k * pub + v * g
     a, b = ciphertext
 
-    ## Prove knowledge of the encrypted v and priv in ZK
+    #  Prove knowledge of the encrypted v and priv in ZK
     #  NIZK{(v, k, priv): a = k * g and 
     #                     b = k * pub + v * g and 
     #                     pub = priv * g}
 
-    ## TODO
+    ## ADD CODE HERE
 
     # Return the fresh v, the encryption of v and the proof.
     proof = (c, rk, rv, rpriv)
@@ -121,16 +122,18 @@ def credential_VerifyUserSecret(params, pub, ciphertext, proof):
 #           that the MAC is correctly formed. The user
 #           decrypts and verifies the MAC.
 
-## IMPRTANT NOTE: Study the section "Issuance" p.8 
+## IMPORTANT NOTE: Study the section "Issuance" p.8 
 #  of https://eprint.iacr.org/2013/516.pdf
 
 def credential_Issuing(params, pub, ciphertext, issuer_params):
-    """ A function used by the credential issuer to provide a MAC
-        on a secret (encrypted) attribute v """
+    """ 
+    A function used by the credential issuer to provide a MAC
+    on a secret (encrypted) attribute v.
+    """
 
     G, g, h, o = params
     
-    ## The public and private parameters of the issuer 
+    # The public and private parameters of the issuer 
     (Cx0, iparams), (sk, x0_bar) = issuer_params
     X1 = iparams
     x0, x1 = sk
@@ -142,12 +145,12 @@ def credential_Issuing(params, pub, ciphertext, issuer_params):
     # 2) Create a X1b as X1b == b * X1 == (b * x1) * h
     #     and x1b = (b * x1) mod o 
     
-    # TODO 1 & 2
+    # ADD CODE HERE FOR 1 & 2
 
     # 3) The encrypted MAC is u, and an encrypted u_prime defined as 
     #    E( (b*x0) * g + (x1 * b * v) * g ) + E(0; r_prime)
     
-    # TODO 3
+    # ADD CODE HERE FOR 3
 
     ciphertext = new_a, new_b
 
@@ -161,27 +164,29 @@ def credential_Issuing(params, pub, ciphertext, issuer_params):
     #       new_b = r_prime * pub + x1b * b + x0 * u 
     #       Cx0 = x0 * g + x0_bar * h }
 
-    ## TODO proof
+    ## ADD CODE HERE proof
 
     proof = (c, rs, X1b) # Where rs are multiple responses
 
     return u, ciphertext, proof
 
 def credential_Verify_Issuing(params, issuer_pub_params, pub, u, Enc_v, Enc_u_prime, proof):
-    """ User verifies that the proof associated with the issuance 
-        of the credential is valid. """
+    """
+    User verifies that the proof associated with the issuance 
+    of the credential is valid.
+    """
 
     G, g, h, o = params
 
-    ## The public parameters of the issuer.
+    # The public parameters of the issuer.
     (Cx0, iparams) = issuer_pub_params
     X1 = iparams
 
-    ## The ciphertext of the encrypted attribute v and the encrypted u_prime
+    # The ciphertext of the encrypted attribute v and the encrypted u_prime
     a, b = Enc_v
     new_a, new_b = Enc_u_prime
     
-    ## The proof of correctness
+    # The proof of correctness
     (c, rs, X1b) = proof
 
     c_prime = to_challenge([g, h, pub, a, b, X1, X1b, new_a, new_b, Cx0,
@@ -213,12 +218,14 @@ def credential_Decrypt(params, priv, u, Enc_u_prime):
 #  p.9 of https://eprint.iacr.org/2013/516.pdf
 
 def credential_show(params, issuer_pub_params, u, u_prime, v):
-    """ The user blinds the credential (u, u_prime) and then
-        proves its correct possession."""
+    """ 
+    The user blinds the credential (u, u_prime) and then
+    proves its correct possession.
+    """
 
     G, g, h, o = params
     
-    ## The public parameters of the credential issuer
+    # The public parameters of the credential issuer
     (Cx0, iparams) = issuer_pub_params
     X1 = iparams
 
@@ -226,12 +233,12 @@ def credential_show(params, issuer_pub_params, u, u_prime, v):
     #    using (alpha * u, alpha * u_prime) for a
     #    random alpha.
     
-    # TODO 1
+    # ADD CODE HERE 1
 
     # 2) Implement the "Show" protocol (p.9) for a single attribute v.
     #    Cv is a commitment to v and Cup is C_{u'} in the paper. 
 
-    # TODO 2
+    # ADD CODE HERE 2
 
     tag = (u, Cv, Cup)
 
@@ -241,7 +248,7 @@ def credential_show(params, issuer_pub_params, u, u_prime, v):
     #           Cv = v *u + z1 * h and
     #           V  = r * (-g) + z1 * X1 }
 
-    ## TODO proof
+    ## ADD CODE HERE proof
 
     proof = (c, rr, rz1, rv)
     return tag, proof
@@ -251,7 +258,7 @@ def credential_show_verify(params, issuer_params, tag, proof):
 
     G, g, h, o = params
 
-    ## Public and private issuer parameters
+    # Public and private issuer parameters
     (Cx0, iparams), (sk, x0_bar) = issuer_params
     x0, x1 = sk
     X1 = iparams
@@ -260,7 +267,7 @@ def credential_show_verify(params, issuer_params, tag, proof):
     (c, rr, rz1, rv) = proof
     (u, Cv, Cup) = tag
 
-    ## TODO
+    ## ADD CODE HERE
 
     return c == c_prime
 
@@ -271,40 +278,44 @@ def credential_show_verify(params, issuer_params, tag, proof):
 #           be unlikable between services.
 
 def credential_show_pseudonym(params, issuer_pub_params, u, u_prime, v, service_name):
-    """ From a credential (u, u_prime) generate a pseudonym H(service_name)^v 
-        and prove you hold a valid credential with attribute v """
+    """
+    From a credential (u, u_prime) generate a pseudonym H(service_name)^v 
+    and prove you hold a valid credential with attribute v.
+    """
 
     G, g, h, o = params
 
-    ## Public issuer parameters    
+    # Public issuer parameters    
     (Cx0, iparams) = issuer_pub_params
     X1 = iparams
 
-    ## A stable pseudonym associated with the service 
+    # A stable pseudonym associated with the service 
     N = G.hash_to_point(service_name)
     pseudonym = v * N
 
-    ## TODO (use code from above and modify as necessary!)
+    ## ADD CODE HERE (use code from above and modify as necessary!)
 
     return pseudonym, tag, proof
 
 def credential_show_verify_pseudonym(params, issuer_params, pseudonym, tag, proof, service_name):
-    """ Verify a pseudonym H(service_name)^v is generated by the holder of the 
-        a valid credential with attribute v """
+    """ 
+    Verify a pseudonym H(service_name)^v is generated by the holder of the 
+    a valid credential with attribute v.
+    """
 
     G, g, h, o = params
 
-    ## The public and private issuer parameters
+    # The public and private issuer parameters
     (Cx0, iparams), (sk, x0_bar) = issuer_params
     x0, x1 = sk
     X1 = iparams
 
-    ## The EC point corresponding to the service
+    # The EC point corresponding to the service
     N = G.hash_to_point(service_name)
 
-    ## Verify the correct Show protocol and the correctness of the pseudonym
+    # Verify the correct Show protocol and the correctness of the pseudonym
 
-    # TODO (use code from above and modify as necessary!)
+    # ADD CODE HERE (use code from above and modify as necessary!)
 
     return c == c_prime
 
@@ -317,4 +328,4 @@ def credential_show_verify_pseudonym(params, issuer_params, pseudonym, tag, proo
 # What would the credential represent, and what statements
 # would need to be shown to a verifier.
 
-""" Your answer here. """
+""" TODO: Your answer HERE """

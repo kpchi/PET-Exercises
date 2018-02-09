@@ -22,14 +22,16 @@ def setup():
     g = G.hash_to_point(b"g")
     hs = [G.hash_to_point(("h%s" % i).encode("utf8")) for i in range(4)]
     o = G.order()
+
     return (G, g, hs, o)
 
 def keyGen(params):
-   """ Generate a private / public key pair. """
-   (G, g, hs, o) = params
-   priv = o.random()
-   pub = priv * g
-   return (priv, pub)
+    """ Generate a private / public key pair. """
+    (G, g, hs, o) = params
+    priv = o.random()
+    pub = priv * g
+   
+    return (priv, pub)
 
 def to_challenge(elements):
     """ Generates a Bn challenge by hashing a number of EC points """
@@ -42,22 +44,24 @@ def to_challenge(elements):
 #           secret.
 
 def proveKey(params, priv, pub):
-    """ Uses the Schnorr non-interactive protocols produce a proof 
-        of knowledge of the secret priv such that pub = priv * g.
+    """ 
+    Uses the Schnorr non-interactive protocols produce a proof 
+    of knowledge of the secret priv such that pub = priv * g.
 
-        Outputs: a proof (c, r)
-                 c (a challenge)
-                 r (the response)
+    Outputs: a proof (c, r)
+        c (a challenge)
+        r (the response)
     """  
     (G, g, hs, o) = params
     
-    ## YOUR CODE HERE:
+    ## ADD CODE HERE:
     
     return (c, r)
 
 def verifyKey(params, pub, proof):
-    """ Schnorr non-interactive proof verification of knowledge of a a secret.
-        Returns a boolean indicating whether the verification was successful.
+    """ 
+    Schnorr non-interactive proof verification of knowledge of a a secret.
+    Returns a boolean indicating whether the verification was successful.
     """
     (G, g, hs, o) = params
     c, r = proof
@@ -69,41 +73,47 @@ def verifyKey(params, pub, proof):
 #           representation.
 
 def commit(params, secrets):
-    """ Produces a commitment C = r * g + Sum xi * hi, 
-        where secrets is a list of xi of length 4.
-        Returns the commitment (C) and the opening (r).
+    """ 
+    Produces a commitment C = r * g + Sum xi * hi, 
+    where secrets is a list of xi of length 4.
+    Returns the commitment (C) and the opening (r).
     """
     assert len(secrets) == 4
     (G, g, (h0, h1, h2, h3), o) = params
     x0, x1, x2, x3 = secrets
     r = o.random()
     C = x0 * h0 + x1 * h1 + x2 * h2 + x3 * h3 + r * g
+
     return (C, r)
 
 def proveCommitment(params, C, r, secrets):
-    """ Prove knowledge of the secrets within a commitment, 
-        as well as the opening of the commitment.
+    """ 
+    Prove knowledge of the secrets within a commitment, 
+    as well as the opening of the commitment.
 
-        Args: C (the commitment), r (the opening of the 
-                commitment), and secrets (a list of secrets).
-        Returns: a challenge (c) and a list of responses.
+    Args: C (the commitment), r (the opening of the 
+        commitment), and secrets (a list of secrets).
+    Returns: a challenge (c) and a list of responses.
     """
     (G, g, (h0, h1, h2, h3), o) = params
     x0, x1, x2, x3 = secrets
 
-    ## YOUR CODE HERE:
+    ## ADD CODE HERE:
 
     return (c, responses)
 
 def verifyCommitments(params, C, proof):
-    """ Verify a proof of knowledge of the commitment.
-        Return a boolean denoting whether the verification succeeded. """
+    """
+    Verify a proof of knowledge of the commitment.
+    Return a boolean denoting whether the verification succeeded.
+    """
     (G, g, (h0, h1, h2, h3), o) = params
     c, responses = proof
     (r0, r1, r2, r3, rr) = responses
 
     Cw_prime = c * C + r0 * h0 + r1 * h1 + r2 * h2 + r3 * h3 + rr * g
     c_prime = to_challenge([g, h0, h1, h2, h3, Cw_prime])
+
     return c_prime == c
 
 #####################################################
@@ -121,8 +131,10 @@ def gen2Keys(params):
     return (x, K, L)    
 
 def proveDLEquality(params, x, K, L):
-    """ Generate a ZK proof that two public keys K, L have the same secret private key x, 
-        as well as knowledge of this private key. """
+    """
+    Generate a ZK proof that two public keys K, L have the same secret private key x, 
+    as well as knowledge of this private key.
+    """
     (G, g, (h0, h1, h2, h3), o) = params
     w = o.random()
     Kw = w * g
@@ -138,7 +150,7 @@ def verifyDLEquality(params, K, L, proof):
     (G, g, (h0, h1, h2, h3), o) = params
     c, r = proof
 
-    ## YOUR CODE HERE:
+    ## ADD CODE HERE:
 
     return # YOUR RETURN HERE
 
@@ -147,23 +159,25 @@ def verifyDLEquality(params, K, L, proof):
 #           a plaintext.
 
 def encrypt(params, pub, m):
-    """ Encrypt a message m under a public key pub. 
-        Returns both the randomness and the ciphertext.
+    """ 
+    Encrypt a message m under a public key pub. 
+    Returns both the randomness and the ciphertext.
     """
     (G, g, (h0, h1, h2, h3), o) = params
     k = o.random()
     return k, (k * g, k * pub + m * h0)
 
 def proveEnc(params, pub, Ciphertext, k, m):
-    """ Prove in ZK that the ciphertext is well formed 
-        and knowledge of the message encrypted as well.
+    """ 
+    Prove in ZK that the ciphertext is well formed 
+    and knowledge of the message encrypted as well.
 
-        Return the proof: challenge and the responses.
+    Return the proof: challenge and the responses.
     """ 
     (G, g, (h0, h1, h2, h3), o) = params
     a, b = Ciphertext
 
-    ## YOUR CODE HERE:
+    ## ADD CODE HERE:
 
     return (c, (rk, rm))
 
@@ -173,7 +187,7 @@ def verifyEnc(params, pub, Ciphertext, proof):
     a, b = Ciphertext    
     (c, (rk, rm)) = proof
 
-    ## YOUR CODE HERE:
+    ## ADD CODE HERE:
 
     return ## YOUR RETURN HERE
 
@@ -183,8 +197,9 @@ def verifyEnc(params, pub, Ciphertext, proof):
 #
 
 def relation(params, x1):
-    """ Returns a commitment C to x0 and x1, such that x0 = 10 x1 + 20,
-        as well as x0, x1 and the commitment opening r. 
+    """
+    Returns a commitment C to x0 and x1, such that x0 = 10 x1 + 20,
+    as well as x0, x1 and the commitment opening r. 
     """
     (G, g, (h0, h1, h2, h3), o) = params
     r = o.random()
@@ -198,7 +213,7 @@ def prove_x0eq10x1plus20(params, C, x0, x1, r):
     """ Prove C is a commitment to x0 and x1 and that x0 = 10 x1 + 20. """
     (G, g, (h0, h1, h2, h3), o) = params
 
-    ## YOUR CODE HERE:
+    ## ADD CODE HERE:
 
     return ## YOUR RETURN HERE
 
@@ -206,7 +221,7 @@ def verify_x0eq10x1plus20(params, C, proof):
     """ Verify that proof of knowledge of C and x0 = 10 x1 + 20. """
     (G, g, (h0, h1, h2, h3), o) = params
 
-    ## YOUR CODE HERE:
+    ## ADD CODE HERE:
 
     return ## YOUR RETURN HERE
 
@@ -253,7 +268,7 @@ def test_bin_incorrect():
 # that  deviates from the Schnorr identification protocol? Justify 
 # your answer by describing what a dishonest verifier may do.
 
-""" TODO: Your answer here. """
+""" TODO: Your answer HERE """
 
 #####################################################
 # TASK Q2 - Answer the following question:
@@ -266,7 +281,7 @@ def test_bin_incorrect():
 #
 # Hint: Look at "test_prove_something" too.
 
-""" TODO: Your answer here. """
+""" TODO: Your answer HERE """
 
 def prove_something(params, KX, KY, y):
     (G, g, _, o) = params

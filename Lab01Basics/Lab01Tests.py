@@ -113,7 +113,6 @@ def test_gcm_fails():
 def test_on_curve():
     """
     Test the procedues that tests whether a point is on a curve.
-
     """
 
     ## Example on how to define a curve

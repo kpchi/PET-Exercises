@@ -98,7 +98,7 @@ The full documentation of pytest is [available here](http://pytest.org/latest/).
 
 - The `GroupKey` operation aggregates a list of public keys from a number of authorities, without using any private keys, to generate a group public key. Encryption under this group key requires all authorities to help with decryption.
 
-- The `partialDecrypt` function takes a ciphertext encypted under a group public key, and returns a partially decrypted ciphertext. 
+- The `partialDecrypt` function takes a ciphertext encrypted under a group public key, and returns a partially decrypted ciphertext. 
 
 - The `final` flag signifies that an authority is the last in a decryption chain, and should return a plaintext rather than a partially decrypted ciphertext.
 

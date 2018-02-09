@@ -69,7 +69,7 @@ The user may verify the issuing was indeed correct. Finally, the user may use th
 
 - In this task the user derives a fresh random attribute v, and encrypts it using a homomorphic encryption scheme under their own public key. The ciphertext will be used by the issuer to issue a credential on this attribute blindly, i.e. without ever learning the attribute.
 
-- The encryption is performed for you, but you have to provide a Zero-knowledge proof of knowledge on a number of statements: You need to prove knowledge of the encryption randomess k, the secret v and the private key for he used public key.
+- The encryption is performed for you, but you have to provide a Zero-knowledge proof of knowledge on a number of statements: You need to prove knowledge of the encryption randomness k, the secret v and the private key for he used public key.
 
 - Note the verification of the proof above is provided: study it and ensure your proof may be verified correctly. The comment in task 1 also describes the statements to be proved.
 

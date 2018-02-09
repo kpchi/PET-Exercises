@@ -76,7 +76,7 @@ The full documentation of pytest is [available here](http://pytest.org/latest/).
 
 - Study the function `commit` to understand the structure of the commitment. Ensure you understand the role of the opening value `r`.
 
-- Study the function `verifyCommitement` to ensure your proof can be verified correctly.
+- Study the function `verifyCommitments` to ensure your proof can be verified correctly.
 
 - The `proveCommitment` function is passed the commitment and the secrets (including the opening). It should returns a proof consisting of the challenge and responses (multiple ones). 
 

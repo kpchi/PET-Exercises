@@ -35,16 +35,16 @@ def encrypt_message(K, message):
 
     plaintext = message.encode("utf8")
     
-    ## YOUR CODE HERE
+    ## ADD CODE HERE
 
     return (iv, ciphertext, tag)
 
 def decrypt_message(K, iv, ciphertext, tag):
-    """ Decrypt a cipher text under a key K 
-
-        In case the decryption fails, throw an exception.
+    """ 
+    Decrypt a cipher text under a key K 
+    In case the decryption fails, throw an exception.
     """
-    ## YOUR CODE HERE
+    ## ADD CODE HERE
 
     return plain.encode("utf8")
 
@@ -56,7 +56,7 @@ def decrypt_message(K, iv, ciphertext, tag):
 #           - Implement Scalar multiplication (double & add).
 #           - Implement Scalar multiplication (Montgomery ladder).
 #
-# MUST NOT USE ANY OF THE petlib.ec FUNCIONS. Only petlib.bn!
+# MUST NOT USE ANY OF THE petlib.ec FUNCTIONS. Only petlib.bn!
 
 from petlib.bn import Bn
 
@@ -89,7 +89,8 @@ def is_point_on_curve(a, b, p, x, y):
 
 
 def point_add(a, b, p, x0, y0, x1, y1):
-    """Define the "addition" operation for 2 EC Points.
+    """
+    Define the "addition" operation for 2 EC Points.
 
     Reminder: (xr, yr) = (xq, yq) + (xp, yp)
     is defined as:
@@ -106,10 +107,11 @@ def point_add(a, b, p, x0, y0, x1, y1):
     return (xr, yr)
 
 def point_double(a, b, p, x, y):
-    """Define "doubling" an EC point.
-     A special case, when a point needs to be added to itself.
+    """
+    Define "doubling" an EC point.
+    A special case, when a point needs to be added to itself.
 
-     Reminder:
+    Reminder:
         lam = (3 * xp ^ 2 + a) * (2 * yp) ^ -1 (mod p)
         xr  = lam ^ 2 - 2 * xp
         yr  = lam * (xp - xr) - yp (mod p)
@@ -134,13 +136,12 @@ def point_scalar_multiplication_double_and_add(a, b, p, x, y, scalar):
                 Q = Q + P
             P = 2 * P
         return Q
-
     """
     Q = (None, None)
     P = (x, y)
 
     for i in range(scalar.num_bits()):
-        pass ## ADD YOUR CODE HERE
+        pass ## ADD CODE HERE
 
     return Q
 
@@ -160,13 +161,12 @@ def point_scalar_multiplication_montgomerry_ladder(a, b, p, x, y, scalar):
                 R0 = R0 + R1
                 R1 = 2 R1
         return R0
-
     """
     R0 = (None, None)
     R1 = (x, y)
 
     for i in reversed(range(0,scalar.num_bits())):
-        pass ## ADD YOUR CODE HERE
+        pass ## ADD CODE HERE
 
     return R0
 
@@ -184,8 +184,10 @@ from petlib.ec import EcGroup
 from petlib.ecdsa import do_ecdsa_sign, do_ecdsa_verify
 
 def ecdsa_key_gen():
-    """ Returns an EC group, a random private key for signing 
-        and the corresponding public key for verification"""
+    """ 
+    Returns an EC group, a random private key for signing 
+    and the corresponding public key for verification
+    """
     G = EcGroup()
     priv_sign = G.order().random()
     pub_verify = priv_sign * G.generator()
@@ -196,7 +198,7 @@ def ecdsa_sign(G, priv_sign, message):
     """ Sign the SHA256 digest of the message using ECDSA and return a signature """
     plaintext =  message.encode("utf8")
 
-    ## YOUR CODE HERE
+    ## ADD CODE HERE
 
     return sig
 
@@ -204,7 +206,7 @@ def ecdsa_verify(G, pub_verify, message, sig):
     """ Verify the ECDSA signature on the message """
     plaintext =  message.encode("utf8")
 
-    ## YOUR CODE HERE
+    ## ADD CODE HERE
 
     return res
 
@@ -225,7 +227,8 @@ def dh_get_key():
 
 
 def dh_encrypt(pub, message, aliceSig = None):
-    """ Assume you know the public key of someone else (Bob), 
+    """ 
+    Assume you know the public key of someone else (Bob), 
     and wish to Encrypt a message for them.
         - Generate a fresh DH key for this message.
         - Derive a fresh shared key.
@@ -233,15 +236,17 @@ def dh_encrypt(pub, message, aliceSig = None):
         - Optionally: sign the message with Alice's key.
     """
     
-    ## YOUR CODE HERE
+    ## ADD CODE HERE
     pass
 
 def dh_decrypt(priv, ciphertext, aliceVer = None):
-    """ Decrypt a received message encrypted using your public key, 
+    """ 
+    Decrypt a received message encrypted using your public key, 
     of which the private key is provided. Optionally verify 
-    the message came from Alice using her verification key."""
+    the message came from Alice using her verification key.
+    """
     
-    ## YOUR CODE HERE
+    ## ADD CODE HERE
     pass
 
 ## NOTE: populate those (or more) tests

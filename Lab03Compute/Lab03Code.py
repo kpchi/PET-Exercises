@@ -25,22 +25,23 @@ def setup():
     g = G.hash_to_point(b"g")
     h = G.hash_to_point(b"h")
     o = G.order()
+
     return (G, g, h, o)
 
 def keyGen(params):
-   """ Generate a private / public key pair """
-   (G, g, h, o) = params
+    """ Generate a private / public key pair """
+    (G, g, h, o) = params
    
-   # ADD CODE HERE
+    ## ADD CODE HERE
 
-   return (priv, pub)
+    return (priv, pub)
 
 def encrypt(params, pub, m):
     """ Encrypt a message under the public key """
     if not -100 < m < 100:
         raise Exception("Message value to low or high.")
 
-   # ADD CODE HERE
+    ## ADD CODE HERE
 
     return c
 
@@ -75,7 +76,7 @@ def decrypt(params, priv, ciphertext):
     assert isCiphertext(params, ciphertext)
     a , b = ciphertext
 
-   # ADD CODE HERE
+    ## ADD CODE HERE
 
     return logh(params, hm)
 
@@ -85,8 +86,9 @@ def decrypt(params, priv, ciphertext):
 # 
 
 def add(params, pub, c1, c2):
-    """ Given two ciphertexts compute the ciphertext of the 
-        sum of their plaintexts.
+    """ 
+    Given two ciphertexts compute the ciphertext of the 
+    sum of their plaintexts.
     """
     assert isCiphertext(params, c1)
     assert isCiphertext(params, c2)
@@ -96,8 +98,10 @@ def add(params, pub, c1, c2):
     return c3
 
 def mul(params, pub, c1, alpha):
-    """ Given a ciphertext compute the ciphertext of the 
-        product of the plaintext time alpha """
+    """ 
+    Given a ciphertext compute the ciphertext of the 
+    product of the plaintext times alpha 
+    """
     assert isCiphertext(params, c1)
 
    # ADD CODE HERE
@@ -113,16 +117,18 @@ def groupKey(params, pubKeys=[]):
     """ Generate a group public key from a list of public keys """
     (G, g, h, o) = params
 
-   # ADD CODE HERE
+    ## ADD CODE HERE
 
     return pub
 
 def partialDecrypt(params, priv, ciphertext, final=False):
-    """ Given a ciphertext and a private key, perform partial decryption. 
-        If final is True, then return the plaintext. """
+    """ 
+    Given a ciphertext and a private key, perform partial decryption. 
+    If final is True, then return the plaintext.
+    """
     assert isCiphertext(params, ciphertext)
     
-    # ADD CODE HERE
+    ## ADD CODE HERE
 
     if final:
         return logh(params, b1)
@@ -142,7 +148,7 @@ def corruptPubKey(params, priv, OtherPubKeys=[]):
         corrupt authority. """
     (G, g, h, o) = params
     
-   # ADD CODE HERE
+    ## ADD CODE HERE
 
     return pub
 
@@ -152,27 +158,33 @@ def corruptPubKey(params, priv, OtherPubKeys=[]):
 #
 
 def encode_vote(params, pub, vote):
-    """ Given a vote 0 or 1 encode the vote as two
-        ciphertexts representing the count of votes for
-        zero and the votes for one."""
+    """ 
+    Given a vote 0 or 1 encode the vote as two
+    ciphertexts representing the count of votes for
+    zero and the votes for one.
+    """
     assert vote in [0, 1]
 
-   # ADD CODE HERE
+    ## ADD CODE HERE
 
     return (v0, v1)
 
 def process_votes(params, pub, encrypted_votes):
-    """ Given a list of encrypted votes tally them
-        to sum votes for zeros and votes for ones. """
+    """ 
+    Given a list of encrypted votes tally them
+    to sum votes for zeros and votes for ones.
+    """
     assert isinstance(encrypted_votes, list)
     
-   # ADD CODE HERE
+    ## ADD CODE HERE
 
     return tv0, tv1
 
 def simulate_poll(votes):
-    """ Simulates the full process of encrypting votes,
-        tallying them, and then decrypting the total. """
+    """
+    Simulates the full process of encrypting votes,
+    tallying them, and then decrypting the total.
+    """
 
     # Generate parameters for the crypto-system
     params = setup()
@@ -215,9 +227,9 @@ def simulate_poll(votes):
 # 3) H2 provides the adversary A, with Ca, Cb, Cc and C.
 #
 # What is the advantage of the adversary in guessing b given your implementation of 
-# Homomorphic addition? What are the security implications of this?
+# homomorphic addition? What are the security implications of this?
 
-""" Your Answer here """
+""" TODO: Your answer HERE """
 
 ###########################################################
 # TASK Q2 -- Answer questions regarding your implementation
@@ -228,4 +240,4 @@ def simulate_poll(votes):
 # that it yields an arbitrary result. Can those malicious actions 
 # be detected given your implementation?
 
-""" Your Answer here """
+""" TODO: Your answer HERE """
